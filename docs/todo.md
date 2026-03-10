@@ -4,6 +4,8 @@ This document tracks the implementation progress of the Vending Machine project.
 
 It follows the phased approach defined in `docs/implementation-approach.md` and the structural rules defined in `docs/hexagonal-architecture.md`.
 
+**Measurable result for every phase: all high-level controlling tests are green.**
+
 ---
 
 ## Phase 1 — Project Setup
@@ -21,6 +23,8 @@ It follows the phased approach defined in `docs/implementation-approach.md` and 
 - [ ] Add Dockerfile
 - [ ] Optionally add `docker-compose.yml`
 
+> ✅ Phase complete when: project runs `composer install` and `vendor/bin/phpunit` without errors.
+
 ---
 
 ## Phase 2 — Write First High-Level Controlling Tests
@@ -32,7 +36,8 @@ See `docs/implementation-approach.md` for the TDD strategy.
 - [ ] Write `it_vends_soda_with_exact_change`
 - [ ] Write `it_returns_inserted_coins`
 - [ ] Write `it_vends_water_and_returns_change`
-- [ ] Confirm all three tests fail
+
+> ✅ Phase complete when: all three tests exist and **fail**.
 
 ---
 
@@ -45,7 +50,8 @@ Temporary hardcoding is allowed at this stage.
 - [ ] Make `it_vends_soda_with_exact_change` pass
 - [ ] Make `it_returns_inserted_coins` pass
 - [ ] Make `it_vends_water_and_returns_change` pass
-- [ ] Confirm all three tests are green
+
+> ✅ Phase complete when: **all three high-level tests are green**.
 
 ---
 
@@ -72,7 +78,8 @@ Replace temporary logic with proper domain structures.
 - [ ] Ensure inserted money resets after purchase
 - [ ] Ensure inserted money resets after return
 - [ ] Ensure inserted coins become part of machine funds on successful purchase
-- [ ] Confirm controlling tests still pass
+
+> ✅ Phase complete when: **all three high-level tests are still green**.
 
 ---
 
@@ -85,7 +92,8 @@ Extract change-making logic behind an interface.
 - [ ] Ensure strategy works with limited coin counts
 - [ ] Return failure when exact change cannot be formed
 - [ ] Inject strategy into `VendingMachine`
-- [ ] Confirm controlling tests still pass
+
+> ✅ Phase complete when: **all three high-level tests are still green**.
 
 ---
 
@@ -104,7 +112,8 @@ Add the orchestration layer.
   - [ ] invoke domain behavior
   - [ ] save updated state
   - [ ] return result
-- [ ] Confirm controlling tests still pass
+
+> ✅ Phase complete when: **all three high-level tests are still green**.
 
 ---
 
@@ -118,6 +127,8 @@ Formalize the input and output boundaries.
   - [ ] `save(machineState)`
 - [ ] Create `Port/Out/EventPublisherInterface.php`
 - [ ] Make `VendingMachineService` depend on ports, not adapters
+
+> ✅ Phase complete when: **all three high-level tests are still green**.
 
 ---
 
@@ -134,6 +145,8 @@ Add concrete implementations for all ports.
   - [ ] Print output in challenge-friendly format
   - [ ] Keep runner separate from domain
 
+> ✅ Phase complete when: **all three high-level tests are still green**.
+
 ---
 
 ## Phase 9 — Add Domain Rule Tests
@@ -147,6 +160,8 @@ Expand test coverage for business rules.
 - [ ] `it_resets_inserted_money_after_return`
 - [ ] `it_updates_resources_after_service`
 
+> ✅ Phase complete when: **all high-level and domain rule tests are green**.
+
 ---
 
 ## Phase 10 — Add Isolated Unit Tests
@@ -157,6 +172,8 @@ Add focused tests for internal components.
 - [ ] `greedy_change_strategy_fails_when_inventory_is_insufficient`
 - [ ] `service_loads_and_saves_machine_state_correctly`
 - [ ] `multiple_machine_ids_behave_independently`
+
+> ✅ Phase complete when: **all tests across all layers are green**.
 
 ---
 
@@ -170,6 +187,8 @@ Add focused tests for internal components.
 - [ ] Create `Domain/Exception/MachineNotFound.php`
 - [ ] Make error messages clear and deterministic
 
+> ✅ Phase complete when: **all tests across all layers are green**.
+
 ---
 
 ## Phase 12 — Docker Support
@@ -180,6 +199,8 @@ Add focused tests for internal components.
 - [ ] Verify tests pass inside container
 - [ ] Verify demo runner works inside container
 
+> ✅ Phase complete when: **all tests pass inside the container**.
+
 ---
 
 ## Phase 13 — Finalize Documentation
@@ -188,6 +209,8 @@ Add focused tests for internal components.
 - [ ] Update `README.md` with Docker instructions
 - [ ] Update `docs/architecture-notes.md` if implementation diverged from plan
 - [ ] Review all docs for consistency with final implementation
+
+> ✅ Phase complete when: README reflects the actual state of the project.
 
 ---
 
