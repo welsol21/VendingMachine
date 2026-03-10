@@ -149,9 +149,10 @@ vendor/bin/phpunit
 ~~~
 ## Documentation
 Project design notes are maintained in:
-- `docs/architecture-notes.md` — core assumptions, boundaries, implementation direction, and TODO phases
+- `docs/architecture-notes.md` — core assumptions, boundaries, and implementation direction
 - `docs/hexagonal-architecture.md` — hexagonal architecture decision: layer structure, port/adapter boundaries, and final project layout
 - `docs/implementation-approach.md` — TDD strategy, outside-in development flow, and phased implementation plan
+- `docs/todo.md` — implementation progress tracker
 ## Status
 This repository follows an implementation-first workflow guided by architecture notes and AI agent-assisted development.
 The design is intentionally prepared for future growth from a single vending machine model to a reusable domain component for multiple machine instances.
