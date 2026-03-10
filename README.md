@@ -1,5 +1,5 @@
 # Vending Machine
-PHP implementation of a vending machine domain model designed for a single machine, with an architecture that can later scale to a network of identical machines.
+PHP implementation of a vending machine domain model using **hexagonal architecture**, designed for a single machine instance and ready to scale to a network of identical machines.
 ## Goal
 The goal of this project is to implement the vending machine challenge in PHP while keeping the domain model clean, testable, and ready for future evolution into a service-oriented or microservice-based system.
 The implementation solves the challenge for one vending machine instance, but the design assumes that multiple machines can exist in a wider network and differ only by their persisted resource state.
@@ -44,8 +44,9 @@ This document serves as the main architecture and design note for the project. I
 7. Add Docker support
 8. Finalize documentation and usage examples
 ## Architecture Overview
+The project follows a **hexagonal architecture** with four explicit zones: `Domain`, `Application`, `Port`, `Adapter`.
+See `docs/hexagonal-architecture.md` for the full architectural decision.
 ### Domain
-Main domain building blocks:
 - `VendingMachineInterface`
 - `VendingMachine`
 - `MachineConfig`
@@ -54,20 +55,21 @@ Main domain building blocks:
 - `VendResult`
 - `ChangeStrategyInterface`
 - `GreedyChangeStrategy`
+- `Exception/` — domain exceptions
 ### Application
-Application layer components:
 - `VendingMachineService`
-- command/request DTOs if needed
-### Ports
-Abstractions for infrastructure:
+- `MachineFactory`
+- `Command/` — InsertCoin, SelectItem, ReturnCoin, ServiceMachine
+### Port/In
+- `VendingMachineUseCaseInterface`
+### Port/Out
 - `MachineRepositoryInterface`
-- optionally `EventPublisherInterface`
-### Infrastructure
-Initial infrastructure layer:
-- `InMemoryMachineRepository`
-- CLI demo runner
-- Dockerfile or docker-compose
-- PHPUnit tests
+- `EventPublisherInterface`
+### Adapter/In
+- `Cli/DemoRunner`
+### Adapter/Out
+- `Persistence/InMemoryMachineRepository`
+- `Event/NullEventPublisher`
 ## Transaction Flow
 A purchase flow is expected to work like this:
 1. Load machine state by `machineId`
