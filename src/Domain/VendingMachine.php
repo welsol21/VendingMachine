@@ -6,16 +6,16 @@ namespace VendingMachine\Domain;
 
 use VendingMachine\Domain\Exception\InsufficientChange;
 use VendingMachine\Domain\Exception\InsufficientFunds;
+use VendingMachine\Domain\Exception\InvalidCoin;
+use VendingMachine\Domain\Exception\InvalidSelector;
 use VendingMachine\Domain\Exception\ItemOutOfStock;
 
 /**
- * Core vending machine — Phase 9.
+ * Core vending machine — Phase 11.
  *
- * selectItem() validates all preconditions before touching state:
- *  1. sufficient funds
- *  2. item in stock
- *  3. exact change achievable
- * Only then are coins absorbed and state mutated.
+ * All preconditions are validated before any state mutation:
+ *  insertCoin  → InvalidCoin if denomination is not accepted
+ *  selectItem  → InvalidSelector, InsufficientFunds, ItemOutOfStock, InsufficientChange
  */
 final class VendingMachine implements VendingMachineInterface
 {
@@ -41,6 +41,9 @@ final class VendingMachine implements VendingMachineInterface
 
     public function insertCoin(int $cents): void
     {
+        if (!$this->config->hasDenomination($cents)) {
+            throw new InvalidCoin($cents);
+        }
         $this->state->insertCoin($cents);
     }
 
@@ -51,6 +54,10 @@ final class VendingMachine implements VendingMachineInterface
 
     public function selectItem(string $selector): VendResult
     {
+        if (!$this->config->hasProduct($selector)) {
+            throw new InvalidSelector($selector);
+        }
+
         $price = $this->config->product($selector)->price();
         $paid  = $this->state->insertedTotal();
 

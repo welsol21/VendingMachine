@@ -22,7 +22,7 @@ It follows the phased approach defined in `docs/implementation-approach.md` and 
 | Phase 8 — Adapters | 2026-03-11 | 2026-03-11 | ~15m |
 | Phase 9 — Domain Rule Tests | 2026-03-11 | 2026-03-11 | ~25m |
 | Phase 10 — Isolated Unit Tests | 2026-03-11 | 2026-03-11 | ~20m |
-| Phase 11 — Error Handling | — | — | — |
+| Phase 11 — Error Handling | 2026-03-11 | 2026-03-11 | ~20m |
 | Phase 12 — Docker Support | — | — | — |
 | Phase 13 — Finalize Documentation | — | — | — |
 | **Total** | 2026-03-10 | — | — |
@@ -243,15 +243,15 @@ It follows the phased approach defined in `docs/implementation-approach.md` and 
 
 | Task | Started | Completed | Duration |
 |------|---------|-----------|----------|
-| Domain exceptions | — | — | — |
+| Domain exceptions | 2026-03-11 | 2026-03-11 | ~20m |
 
-- [ ] Create `Domain/Exception/InvalidCoin.php`
-- [ ] Create `Domain/Exception/InvalidSelector.php`
-- [ ] Create `Domain/Exception/ItemOutOfStock.php`
-- [ ] Create `Domain/Exception/InsufficientFunds.php`
-- [ ] Create `Domain/Exception/InsufficientChange.php`
-- [ ] Create `Domain/Exception/MachineNotFound.php`
-- [ ] Make error messages clear and deterministic
+- [x] Create `Domain/Exception/InvalidCoin.php`
+- [x] Create `Domain/Exception/InvalidSelector.php`
+- [x] Create `Domain/Exception/ItemOutOfStock.php`
+- [x] Create `Domain/Exception/InsufficientFunds.php`
+- [x] Create `Domain/Exception/InsufficientChange.php`
+- [x] Create `Domain/Exception/MachineNotFound.php`
+- [x] Make error messages clear and deterministic
 
 > ✅ Phase complete when: **all tests across all layers are green**.
 

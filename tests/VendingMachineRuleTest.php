@@ -7,6 +7,8 @@ namespace VendingMachine\Tests;
 use PHPUnit\Framework\TestCase;
 use VendingMachine\Domain\Exception\InsufficientChange;
 use VendingMachine\Domain\Exception\InsufficientFunds;
+use VendingMachine\Domain\Exception\InvalidCoin;
+use VendingMachine\Domain\Exception\InvalidSelector;
 use VendingMachine\Domain\Exception\ItemOutOfStock;
 use VendingMachine\Domain\GreedyChangeStrategy;
 use VendingMachine\Domain\MachineConfig;
@@ -123,5 +125,19 @@ class VendingMachineRuleTest extends TestCase
         $result = $this->machine->selectItem('SODA');
 
         $this->assertSame('SODA', $result->item());
+    }
+
+    public function test_it_rejects_an_unaccepted_coin_denomination(): void
+    {
+        $this->expectException(InvalidCoin::class);
+        $this->machine->insertCoin(3);  // 3¢ is not a valid denomination
+    }
+
+    public function test_it_rejects_an_unknown_product_selector(): void
+    {
+        $this->machine->insertCoin(100);
+
+        $this->expectException(InvalidSelector::class);
+        $this->machine->selectItem('COFFEE');
     }
 }
