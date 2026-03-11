@@ -19,7 +19,7 @@ It follows the phased approach defined in `docs/implementation-approach.md` and 
 | Phase 5 — Change Strategy | 2026-03-11 | 2026-03-11 | ~15m |
 | Phase 6 — Application Coordination | 2026-03-11 | 2026-03-11 | ~20m |
 | Phase 7 — Ports | 2026-03-11 | 2026-03-11 | ~15m |
-| Phase 8 — Adapters | — | — | — |
+| Phase 8 — Adapters | 2026-03-11 | 2026-03-11 | ~15m |
 | Phase 9 — Domain Rule Tests | — | — | — |
 | Phase 10 — Isolated Unit Tests | — | — | — |
 | Phase 11 — Error Handling | — | — | — |
@@ -191,13 +191,13 @@ It follows the phased approach defined in `docs/implementation-approach.md` and 
 
 | Task | Started | Completed | Duration |
 |------|---------|-----------|----------|
-| InMemoryMachineRepository | — | — | — |
-| NullEventPublisher | — | — | — |
-| Cli/DemoRunner | — | — | — |
+| InMemoryMachineRepository | 2026-03-11 | 2026-03-11 | ~5m |
+| NullEventPublisher | 2026-03-11 | 2026-03-11 | ~5m |
+| Cli/DemoRunner | 2026-03-11 | 2026-03-11 | ~5m |
 
-- [ ] Create `Adapter/Out/Persistence/InMemoryMachineRepository.php`
-- [ ] Create `Adapter/Out/Event/NullEventPublisher.php`
-- [ ] Create `Adapter/In/Cli/DemoRunner.php`
+- [x] Create `Adapter/Out/Persistence/InMemoryMachineRepository.php`
+- [x] Create `Adapter/Out/Event/NullEventPublisher.php`
+- [x] Create `Adapter/In/Cli/DemoRunner.php`
 
 > ✅ Phase complete when: **all three high-level tests are still green**.
 
