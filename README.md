@@ -58,6 +58,56 @@ Adapter/Out/Event/
 
 See `docs/hexagonal-architecture.md` for the full architectural decision record.
 
+## How It Works
+
+A request flows through four layers before any state changes.
+Example: `insertCoin('machine-1', 100)` followed by `selectItem('machine-1', 'WATER')`:
+
+```
+CLI / Test
+    │  SelectItemCommand('machine-1', 'WATER')
+    ▼
+VendingMachineService          application layer — no business logic
+    │  repository->findById('machine-1')
+    │  machine->selectItem('WATER')
+    │  repository->save(machine)
+    ▼
+VendingMachine                 domain — all rules live here
+    │  config->hasProduct()    → valid selector?
+    │  state->insertedTotal()  → enough money?
+    │  state->itemCount()      → in stock?
+    │  changeStrategy->compute(35¢, tentative inventory)  → change possible?
+    │  state->absorb()         → accept inserted coins into the till
+    │  state->decrementCoin()  → dispense change
+    │  state->decrementItem()  → dispense item
+    └─ return VendResult('WATER', [25, 10])
+```
+
+`MachineConfig` and `GreedyChangeStrategy` are stateless and shared across all machine instances.
+`MachineState` is per-machine — each machine owns its own item inventory, coin inventory, and inserted coins.
+
+Multiple machines are simply multiple `VendingMachine` objects keyed by ID inside the repository:
+
+```
+InMemoryMachineRepository.machines = [
+    'machine-1'  => VendingMachine { state: { inserted: [25],  coins: […], items: […] } }
+    'machine-2'  => VendingMachine { state: { inserted: [],    coins: […], items: […] } }
+    'machine-42' => VendingMachine { state: { inserted: [100], coins: […], items: […] } }
+]
+```
+
+## Current Bottlenecks and Future Upgrades
+
+| Bottleneck | Impact | Upgrade path |
+|---|---|---|
+| `InMemoryMachineRepository` — state lives in process memory | All machine states are lost on restart | Swap in a `DoctrineRepository` or `RedisRepository` that implements `MachineRepositoryInterface` — no other code changes required |
+| No concurrency control | Two simultaneous requests to the same machine can produce a lost update (both threads read stock=1, both vend, stock goes to 0 twice) | Add optimistic locking: `findById` returns a versioned snapshot; `save` throws `ConcurrencyException` if the version is stale |
+| `NullEventPublisher` — domain events are discarded | Restocking alerts, audit logs, and billing systems cannot react to machine activity | Replace with a `KafkaEventPublisher` or `RabbitMQEventPublisher` implementing `EventPublisherInterface`; publish `ItemVendedEvent`, `CoinsReturnedEvent`, etc. |
+| `MachineConfig::createDefault()` — one config for all machines | Cannot give individual machines different products, prices, or accepted denominations | Load config per `machineId` from a `ConfigRepository`; `MachineFactory::create()` already accepts an injected `MachineConfig` |
+| Single entry point (`DemoRunner` CLI) | No way to drive the machine over HTTP or gRPC | Add an `Adapter\In\Http\MachineController` that maps HTTP requests to the same `VendingMachineUseCaseInterface` port |
+
+The boundary that protects all of the above: `VendingMachineService` depends only on `MachineRepositoryInterface` and `EventPublisherInterface`. Swapping any adapter never touches the domain or application layers.
+
 ## Supported Behaviour
 
 Accepted coin denominations (in cents): `5`, `10`, `25`, `100`
