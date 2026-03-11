@@ -24,8 +24,8 @@ It follows the phased approach defined in `docs/implementation-approach.md` and 
 | Phase 10 — Isolated Unit Tests | 2026-03-11 | 2026-03-11 | ~20m |
 | Phase 11 — Error Handling | 2026-03-11 | 2026-03-11 | ~20m |
 | Phase 12 — Docker Support | 2026-03-11 | 2026-03-11 | ~10m |
-| Phase 13 — Finalize Documentation | — | — | — |
-| **Total** | 2026-03-10 | — | — |
+| Phase 13 — Finalize Documentation | 2026-03-11 | 2026-03-11 | ~15m |
+| **Total** | 2026-03-10 | 2026-03-11 | ~5h |
 
 ---
 
@@ -279,13 +279,13 @@ It follows the phased approach defined in `docs/implementation-approach.md` and 
 
 | Task | Started | Completed | Duration |
 |------|---------|-----------|----------|
-| README final update | — | — | — |
-| Docs consistency review | — | — | — |
+| README final update | 2026-03-11 | 2026-03-11 | ~10m |
+| Docs consistency review | 2026-03-11 | 2026-03-11 | ~5m |
 
-- [ ] Update `README.md` with final run instructions
-- [ ] Update `README.md` with Docker instructions
-- [ ] Update `docs/architecture-notes.md` if implementation diverged from plan
-- [ ] Review all docs for consistency with final implementation
+- [x] Update `README.md` with final run instructions
+- [x] Update `README.md` with Docker instructions
+- [x] Update `docs/architecture-notes.md` if implementation diverged from plan
+- [x] Review all docs for consistency with final implementation
 
 > ✅ Phase complete when: README reflects the actual state of the project.
 
