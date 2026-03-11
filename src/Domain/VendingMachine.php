@@ -5,110 +5,70 @@ declare(strict_types=1);
 namespace VendingMachine\Domain;
 
 /**
- * Minimal vending machine implementation — Phase 3.
+ * Core vending machine — Phase 4.
  *
- * Intentionally kept as simple as possible to pass the three high-level
- * controlling tests. Prices, denominations, inventory, and change logic
- * live here temporarily; they will be extracted into MachineConfig,
- * MachineState, and ChangeStrategy during Phase 4 and 5.
- *
- * Money is represented as integers in cents throughout.
- *
- * Denomination order matters for the greedy change algorithm:
- * largest first → [100, 25, 10, 5].
+ * Delegates configuration to MachineConfig and mutable state to MachineState.
+ * Change logic lives here temporarily; it will be extracted into a
+ * ChangeStrategyInterface in Phase 5.
  */
-final class VendingMachine
+final class VendingMachine implements VendingMachineInterface
 {
-    /** @var int[] Coin denominations accepted, ordered largest-first. */
-    private const DENOMINATIONS = [100, 25, 10, 5];
-
-    /** @var array<string, int> Product prices in cents. */
-    private const PRICES = [
-        'SODA'  => 150,
-        'JUICE' => 100,
-        'WATER' => 65,
-    ];
-
-    /** @var int[] Coins currently inserted by the customer (not yet spent). */
-    private array $insertedCoins = [];
-
-    /**
-     * @param array<int, int> $changeInventory  Map of cent-value → available count.
-     * @param array<string, int> $itemInventory  Map of selector → stock count.
-     */
-    private function __construct(
-        private array $changeInventory,
-        private array $itemInventory,
+    public function __construct(
+        private readonly string       $machineId,
+        private readonly MachineConfig $config,
+        private MachineState           $state,
     ) {}
 
     /**
      * Factory for a fully stocked machine ready for testing and demo use.
-     *
-     * Default stock: 10 units of every product.
-     * Default change: 10 coins of every denomination.
      */
-    public static function createDefault(): self
+    public static function createDefault(string $machineId = 'default'): self
     {
-        return new self(
-            changeInventory: [100 => 10, 25 => 10, 10 => 10, 5 => 10],
-            itemInventory:   ['SODA' => 10, 'JUICE' => 10, 'WATER' => 10],
-        );
+        $config = MachineConfig::createDefault();
+        return new self($machineId, $config, MachineState::createDefault($config));
     }
 
-    /**
-     * Accept a coin from the customer.
-     *
-     * @param int $cents Coin value in cents (e.g. 25 for a quarter).
-     */
+    public function id(): string { return $this->machineId; }
+
     public function insertCoin(int $cents): void
     {
-        $this->insertedCoins[] = $cents;
+        $this->state->insertCoin($cents);
     }
 
-    /**
-     * Return all inserted coins to the customer without completing a purchase.
-     *
-     * @return int[] The exact coins that were inserted, in insertion order.
-     */
     public function returnCoins(): array
     {
-        $coins = $this->insertedCoins;
-        $this->insertedCoins = [];
-
-        return $coins;
+        return $this->state->ejectInserted();
     }
 
-    /**
-     * Vend the requested item.
-     *
-     * Merges inserted coins into the machine's change inventory, deducts the
-     * price, computes change with a greedy algorithm, and decrements stock.
-     *
-     * @param string $selector Product selector (e.g. 'SODA').
-     */
     public function selectItem(string $selector): VendResult
     {
-        $price = self::PRICES[$selector];
-        $paid  = array_sum($this->insertedCoins);
+        $price = $this->config->product($selector)->price();
+        $paid  = $this->state->insertedTotal();
 
-        // Inserted coins become part of the machine's funds.
-        foreach ($this->insertedCoins as $coin) {
-            $this->changeInventory[$coin]++;
-        }
-        $this->insertedCoins = [];
+        $this->state->absorb();
 
         $change = $this->makeChange($paid - $price);
-        $this->itemInventory[$selector]--;
+        $this->state->decrementItem($selector);
 
         return new VendResult($selector, $change);
     }
 
-    /**
-     * Greedy change algorithm — largest denomination first.
-     *
-     * @param  int   $amount Remaining amount to return in cents.
-     * @return int[]         Coins to give back, largest first.
-     */
+    public function service(array $coinsToAdd, array $itemsToAdd): void
+    {
+        foreach ($coinsToAdd as $denom => $count) {
+            $this->state->addCoins($denom, $count);
+        }
+        foreach ($itemsToAdd as $selector => $count) {
+            $this->state->addItems($selector, $count);
+        }
+    }
+
+    public function snapshot(): MachineState
+    {
+        return $this->state;
+    }
+
+    /** @return int[] Change coins, largest denomination first. */
     private function makeChange(int $amount): array
     {
         if ($amount === 0) {
@@ -117,10 +77,10 @@ final class VendingMachine
 
         $change = [];
 
-        foreach (self::DENOMINATIONS as $denom) {
-            while ($amount >= $denom && $this->changeInventory[$denom] > 0) {
+        foreach ($this->config->denominations() as $denom) {
+            while ($amount >= $denom && $this->state->coinCount($denom) > 0) {
                 $change[] = $denom;
-                $this->changeInventory[$denom]--;
+                $this->state->decrementCoin($denom);
                 $amount -= $denom;
             }
         }

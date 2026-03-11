@@ -15,7 +15,7 @@ It follows the phased approach defined in `docs/implementation-approach.md` and 
 | Phase 1 — Project Setup | 2026-03-10 | 2026-03-11 | ~2h |
 | Phase 2 — First Controlling Tests | 2026-03-11 | 2026-03-11 | ~25m |
 | Phase 3 — Minimal Implementation | 2026-03-11 | 2026-03-11 | ~20m |
-| Phase 4 — Extract Core Domain Model | — | — | — |
+| Phase 4 — Extract Core Domain Model | 2026-03-11 | 2026-03-11 | ~30m |
 | Phase 5 — Change Strategy | — | — | — |
 | Phase 6 — Application Coordination | — | — | — |
 | Phase 7 — Ports | — | — | — |
@@ -101,33 +101,33 @@ It follows the phased approach defined in `docs/implementation-approach.md` and 
 
 | Task | Started | Completed | Duration |
 |------|---------|-----------|----------|
-| ProductDefinition | — | — | — |
-| MachineConfig | — | — | — |
-| MachineState | — | — | — |
-| VendResult | — | — | — |
-| VendingMachineInterface | — | — | — |
-| VendingMachine | — | — | — |
-| Business rules implementation | — | — | — |
+| ProductDefinition | 2026-03-11 | 2026-03-11 | ~5m |
+| MachineConfig | 2026-03-11 | 2026-03-11 | ~5m |
+| MachineState | 2026-03-11 | 2026-03-11 | ~10m |
+| VendResult | 2026-03-11 | 2026-03-11 | done |
+| VendingMachineInterface | 2026-03-11 | 2026-03-11 | ~5m |
+| VendingMachine | 2026-03-11 | 2026-03-11 | ~10m |
+| Business rules implementation | 2026-03-11 | 2026-03-11 | done |
 
-- [ ] Create `Domain/ProductDefinition.php`
-- [ ] Create `Domain/MachineConfig.php` — shared config (denominations, catalog, prices)
-- [ ] Create `Domain/MachineState.php` — per-machine mutable state
-- [ ] Create `Domain/VendResult.php`
-- [ ] Create `Domain/VendingMachineInterface.php` with:
-  - [ ] `id()`
-  - [ ] `insertCoin(...)`
-  - [ ] `selectItem(...)`
-  - [ ] `returnCoins()`
-  - [ ] `service(...)`
-  - [ ] `snapshot()` or equivalent
-- [ ] Create `Domain/VendingMachine.php` — inject machineId, MachineConfig, MachineState
-- [ ] Implement coin insertion
-- [ ] Implement product selection with validation
-- [ ] Implement return coin
-- [ ] Implement service/refill operation
-- [ ] Ensure inserted money resets after purchase
-- [ ] Ensure inserted money resets after return
-- [ ] Ensure inserted coins become part of machine funds on successful purchase
+- [x] Create `Domain/ProductDefinition.php`
+- [x] Create `Domain/MachineConfig.php` — shared config (denominations, catalog, prices)
+- [x] Create `Domain/MachineState.php` — per-machine mutable state
+- [x] Create `Domain/VendResult.php`
+- [x] Create `Domain/VendingMachineInterface.php` with:
+  - [x] `id()`
+  - [x] `insertCoin(...)`
+  - [x] `selectItem(...)`
+  - [x] `returnCoins()`
+  - [x] `service(...)`
+  - [x] `snapshot()` or equivalent
+- [x] Create `Domain/VendingMachine.php` — inject machineId, MachineConfig, MachineState
+- [x] Implement coin insertion
+- [x] Implement product selection with validation
+- [x] Implement return coin
+- [x] Implement service/refill operation
+- [x] Ensure inserted money resets after purchase
+- [x] Ensure inserted money resets after return
+- [x] Ensure inserted coins become part of machine funds on successful purchase
 
 > ✅ Phase complete when: **all three high-level tests are still green**.
 
