@@ -4,10 +4,18 @@ declare(strict_types=1);
 
 namespace VendingMachine\Domain;
 
+use VendingMachine\Domain\Exception\InsufficientChange;
+use VendingMachine\Domain\Exception\InsufficientFunds;
+use VendingMachine\Domain\Exception\ItemOutOfStock;
+
 /**
- * Core vending machine — Phase 5.
+ * Core vending machine — Phase 9.
  *
- * Change computation is delegated to an injected ChangeStrategyInterface.
+ * selectItem() validates all preconditions before touching state:
+ *  1. sufficient funds
+ *  2. item in stock
+ *  3. exact change achievable
+ * Only then are coins absorbed and state mutated.
  */
 final class VendingMachine implements VendingMachineInterface
 {
@@ -18,9 +26,6 @@ final class VendingMachine implements VendingMachineInterface
         private readonly ChangeStrategyInterface $changeStrategy,
     ) {}
 
-    /**
-     * Factory for a fully stocked machine using the greedy change strategy.
-     */
     public static function createDefault(string $machineId = 'default'): self
     {
         $config = MachineConfig::createDefault();
@@ -49,9 +54,28 @@ final class VendingMachine implements VendingMachineInterface
         $price = $this->config->product($selector)->price();
         $paid  = $this->state->insertedTotal();
 
-        $this->state->absorb();
+        if ($paid < $price) {
+            throw new InsufficientFunds($price, $paid);
+        }
 
-        $change = $this->changeStrategy->compute($paid - $price, $this->state->coinInventory()) ?? [];
+        if ($this->state->itemCount($selector) === 0) {
+            throw new ItemOutOfStock($selector);
+        }
+
+        // Compute change against the tentative inventory (current + inserted coins)
+        // so we can verify feasibility before committing any state mutation.
+        $tentative = $this->state->coinInventory();
+        foreach ($this->state->insertedCoins() as $coin) {
+            $tentative[$coin] = ($tentative[$coin] ?? 0) + 1;
+        }
+
+        $change = $this->changeStrategy->compute($paid - $price, $tentative);
+        if ($change === null) {
+            throw new InsufficientChange($paid - $price);
+        }
+
+        // All checks passed — commit the transaction.
+        $this->state->absorb();
 
         foreach ($change as $denom) {
             $this->state->decrementCoin($denom);

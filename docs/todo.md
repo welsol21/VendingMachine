@@ -20,7 +20,7 @@ It follows the phased approach defined in `docs/implementation-approach.md` and 
 | Phase 6 — Application Coordination | 2026-03-11 | 2026-03-11 | ~20m |
 | Phase 7 — Ports | 2026-03-11 | 2026-03-11 | ~15m |
 | Phase 8 — Adapters | 2026-03-11 | 2026-03-11 | ~15m |
-| Phase 9 — Domain Rule Tests | — | — | — |
+| Phase 9 — Domain Rule Tests | 2026-03-11 | 2026-03-11 | ~25m |
 | Phase 10 — Isolated Unit Tests | — | — | — |
 | Phase 11 — Error Handling | — | — | — |
 | Phase 12 — Docker Support | — | — | — |
@@ -207,16 +207,16 @@ It follows the phased approach defined in `docs/implementation-approach.md` and 
 
 | Task | Started | Completed | Duration |
 |------|---------|-----------|----------|
-| Failure scenario tests | — | — | — |
-| State reset tests | — | — | — |
-| Service update test | — | — | — |
+| Failure scenario tests | 2026-03-11 | 2026-03-11 | ~10m |
+| State reset tests | 2026-03-11 | 2026-03-11 | ~5m |
+| Service update test | 2026-03-11 | 2026-03-11 | ~5m |
 
-- [ ] `it_fails_when_not_enough_money_was_inserted`
-- [ ] `it_fails_when_item_is_out_of_stock`
-- [ ] `it_fails_when_exact_change_cannot_be_returned`
-- [ ] `it_resets_inserted_money_after_successful_purchase`
-- [ ] `it_resets_inserted_money_after_return`
-- [ ] `it_updates_resources_after_service`
+- [x] `it_fails_when_not_enough_money_was_inserted`
+- [x] `it_fails_when_item_is_out_of_stock`
+- [x] `it_fails_when_exact_change_cannot_be_returned`
+- [x] `it_resets_inserted_money_after_successful_purchase`
+- [x] `it_resets_inserted_money_after_return`
+- [x] `it_updates_resources_after_service`
 
 > ✅ Phase complete when: **all high-level and domain rule tests are green**.
 
