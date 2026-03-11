@@ -17,7 +17,7 @@ It follows the phased approach defined in `docs/implementation-approach.md` and 
 | Phase 3 — Minimal Implementation | 2026-03-11 | 2026-03-11 | ~20m |
 | Phase 4 — Extract Core Domain Model | 2026-03-11 | 2026-03-11 | ~30m |
 | Phase 5 — Change Strategy | 2026-03-11 | 2026-03-11 | ~15m |
-| Phase 6 — Application Coordination | — | — | — |
+| Phase 6 — Application Coordination | 2026-03-11 | 2026-03-11 | ~20m |
 | Phase 7 — Ports | — | — | — |
 | Phase 8 — Adapters | — | — | — |
 | Phase 9 — Domain Rule Tests | — | — | — |
@@ -155,16 +155,16 @@ It follows the phased approach defined in `docs/implementation-approach.md` and 
 
 | Task | Started | Completed | Duration |
 |------|---------|-----------|----------|
-| MachineFactory | — | — | — |
-| Command objects | — | — | — |
-| VendingMachineService | — | — | — |
+| MachineFactory | 2026-03-11 | 2026-03-11 | ~5m |
+| Command objects | 2026-03-11 | 2026-03-11 | ~5m |
+| VendingMachineService | 2026-03-11 | 2026-03-11 | ~10m |
 
-- [ ] Create `Application/MachineFactory.php`
-- [ ] Create `Application/Command/InsertCoinCommand.php`
-- [ ] Create `Application/Command/SelectItemCommand.php`
-- [ ] Create `Application/Command/ReturnCoinCommand.php`
-- [ ] Create `Application/Command/ServiceMachineCommand.php`
-- [ ] Create `Application/VendingMachineService.php`
+- [x] Create `Application/MachineFactory.php`
+- [x] Create `Application/Command/InsertCoinCommand.php`
+- [x] Create `Application/Command/SelectItemCommand.php`
+- [x] Create `Application/Command/ReturnCoinCommand.php`
+- [x] Create `Application/Command/ServiceMachineCommand.php`
+- [x] Create `Application/VendingMachineService.php`
 
 > ✅ Phase complete when: **all three high-level tests are still green**.
 
