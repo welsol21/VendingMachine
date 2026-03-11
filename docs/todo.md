@@ -21,7 +21,7 @@ It follows the phased approach defined in `docs/implementation-approach.md` and 
 | Phase 7 — Ports | 2026-03-11 | 2026-03-11 | ~15m |
 | Phase 8 — Adapters | 2026-03-11 | 2026-03-11 | ~15m |
 | Phase 9 — Domain Rule Tests | 2026-03-11 | 2026-03-11 | ~25m |
-| Phase 10 — Isolated Unit Tests | — | — | — |
+| Phase 10 — Isolated Unit Tests | 2026-03-11 | 2026-03-11 | ~20m |
 | Phase 11 — Error Handling | — | — | — |
 | Phase 12 — Docker Support | — | — | — |
 | Phase 13 — Finalize Documentation | — | — | — |
@@ -226,14 +226,14 @@ It follows the phased approach defined in `docs/implementation-approach.md` and 
 
 | Task | Started | Completed | Duration |
 |------|---------|-----------|----------|
-| Change strategy unit tests | — | — | — |
-| Service integration tests | — | — | — |
-| Multi-machine test | — | — | — |
+| Change strategy unit tests | 2026-03-11 | 2026-03-11 | ~10m |
+| Service integration tests | 2026-03-11 | 2026-03-11 | ~10m |
+| Multi-machine test | 2026-03-11 | 2026-03-11 | ~5m |
 
-- [ ] `greedy_change_strategy_returns_expected_coins`
-- [ ] `greedy_change_strategy_fails_when_inventory_is_insufficient`
-- [ ] `service_loads_and_saves_machine_state_correctly`
-- [ ] `multiple_machine_ids_behave_independently`
+- [x] `greedy_change_strategy_returns_expected_coins`
+- [x] `greedy_change_strategy_fails_when_inventory_is_insufficient`
+- [x] `service_loads_and_saves_machine_state_correctly`
+- [x] `multiple_machine_ids_behave_independently`
 
 > ✅ Phase complete when: **all tests across all layers are green**.
 
