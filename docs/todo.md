@@ -8,7 +8,41 @@ It follows the phased approach defined in `docs/implementation-approach.md` and 
 
 ---
 
+## Time Tracking
+
+| Phase | Started | Completed | Duration |
+|-------|---------|-----------|----------|
+| Phase 1 — Project Setup | 2026-03-10 | 2026-03-11 | ~2h |
+| Phase 2 — First Controlling Tests | 2026-03-11 | 2026-03-11 | ~25m |
+| Phase 3 — Minimal Implementation | 2026-03-11 | 2026-03-11 | ~20m |
+| Phase 4 — Extract Core Domain Model | — | — | — |
+| Phase 5 — Change Strategy | — | — | — |
+| Phase 6 — Application Coordination | — | — | — |
+| Phase 7 — Ports | — | — | — |
+| Phase 8 — Adapters | — | — | — |
+| Phase 9 — Domain Rule Tests | — | — | — |
+| Phase 10 — Isolated Unit Tests | — | — | — |
+| Phase 11 — Error Handling | — | — | — |
+| Phase 12 — Docker Support | — | — | — |
+| Phase 13 — Finalize Documentation | — | — | — |
+| **Total** | 2026-03-10 | — | — |
+
+---
+
 ## Phase 1 — Project Setup
+
+| Task | Started | Completed | Duration |
+|------|---------|-----------|----------|
+| Repository & initial commit | 2026-03-10 | 2026-03-10 | ~1h |
+| README + .gitignore | 2026-03-10 | 2026-03-10 | ~30m |
+| docs/architecture-notes.md | 2026-03-10 | 2026-03-10 | ~30m |
+| docs/hexagonal-architecture.md | 2026-03-10 | 2026-03-10 | ~20m |
+| docs/implementation-approach.md | 2026-03-10 | 2026-03-10 | ~20m |
+| docs/todo.md | 2026-03-10 | 2026-03-10 | ~20m |
+| composer.json | 2026-03-10 | 2026-03-10 | ~20m |
+| PHPUnit configuration | 2026-03-11 | 2026-03-11 | ~10m |
+| src/ directory structure | 2026-03-11 | 2026-03-11 | ~10m |
+| Dockerfile | 2026-03-11 | 2026-03-11 | ~10m |
 
 - [x] Create public repository
 - [x] Create initial commit
@@ -17,10 +51,10 @@ It follows the phased approach defined in `docs/implementation-approach.md` and 
 - [x] Add `docs/architecture-notes.md`
 - [x] Add `docs/hexagonal-architecture.md`
 - [x] Add `docs/implementation-approach.md`
-- [ ] Add `composer.json`
-- [ ] Add PHPUnit configuration
-- [ ] Add `src/` directory structure
-- [ ] Add Dockerfile
+- [x] Add `composer.json`
+- [x] Add PHPUnit configuration
+- [x] Add `src/` directory structure
+- [x] Add Dockerfile
 - [ ] Optionally add `docker-compose.yml`
 
 > ✅ Phase complete when: project runs `composer install` and `vendor/bin/phpunit` without errors.
@@ -29,13 +63,17 @@ It follows the phased approach defined in `docs/implementation-approach.md` and 
 
 ## Phase 2 — Write First High-Level Controlling Tests
 
-Start with three failing behavior tests that control the direction of the implementation.
-See `docs/implementation-approach.md` for the TDD strategy.
+| Task | Started | Completed | Duration |
+|------|---------|-----------|----------|
+| PHPUnit test bootstrap | 2026-03-11 | 2026-03-11 | ~5m |
+| it_vends_soda_with_exact_change | 2026-03-11 | 2026-03-11 | ~10m |
+| it_returns_inserted_coins | 2026-03-11 | 2026-03-11 | ~5m |
+| it_vends_water_and_returns_change | 2026-03-11 | 2026-03-11 | ~5m |
 
-- [ ] Set up PHPUnit test bootstrap
-- [ ] Write `it_vends_soda_with_exact_change`
-- [ ] Write `it_returns_inserted_coins`
-- [ ] Write `it_vends_water_and_returns_change`
+- [x] Set up PHPUnit test bootstrap
+- [x] Write `it_vends_soda_with_exact_change`
+- [x] Write `it_returns_inserted_coins`
+- [x] Write `it_vends_water_and_returns_change`
 
 > ✅ Phase complete when: all three tests exist and **fail**.
 
@@ -43,13 +81,17 @@ See `docs/implementation-approach.md` for the TDD strategy.
 
 ## Phase 3 — Minimal Implementation to Pass First Tests
 
-Implement the smallest possible logic to reach green.
-Temporary hardcoding is allowed at this stage.
+| Task | Started | Completed | Duration |
+|------|---------|-----------|----------|
+| Minimal entry point | 2026-03-11 | 2026-03-11 | ~10m |
+| it_vends_soda_with_exact_change green | 2026-03-11 | 2026-03-11 | — |
+| it_returns_inserted_coins green | 2026-03-11 | 2026-03-11 | — |
+| it_vends_water_and_returns_change green | 2026-03-11 | 2026-03-11 | — |
 
-- [ ] Create minimal entry point for tests to run against
-- [ ] Make `it_vends_soda_with_exact_change` pass
-- [ ] Make `it_returns_inserted_coins` pass
-- [ ] Make `it_vends_water_and_returns_change` pass
+- [x] Create minimal entry point for tests to run against
+- [x] Make `it_vends_soda_with_exact_change` pass
+- [x] Make `it_returns_inserted_coins` pass
+- [x] Make `it_vends_water_and_returns_change` pass
 
 > ✅ Phase complete when: **all three high-level tests are green**.
 
@@ -57,7 +99,15 @@ Temporary hardcoding is allowed at this stage.
 
 ## Phase 4 — Extract Core Domain Model
 
-Replace temporary logic with proper domain structures.
+| Task | Started | Completed | Duration |
+|------|---------|-----------|----------|
+| ProductDefinition | — | — | — |
+| MachineConfig | — | — | — |
+| MachineState | — | — | — |
+| VendResult | — | — | — |
+| VendingMachineInterface | — | — | — |
+| VendingMachine | — | — | — |
+| Business rules implementation | — | — | — |
 
 - [ ] Create `Domain/ProductDefinition.php`
 - [ ] Create `Domain/MachineConfig.php` — shared config (denominations, catalog, prices)
@@ -85,7 +135,11 @@ Replace temporary logic with proper domain structures.
 
 ## Phase 5 — Introduce Change Strategy
 
-Extract change-making logic behind an interface.
+| Task | Started | Completed | Duration |
+|------|---------|-----------|----------|
+| ChangeStrategyInterface | — | — | — |
+| GreedyChangeStrategy | — | — | — |
+| Inject into VendingMachine | — | — | — |
 
 - [ ] Create `Domain/ChangeStrategyInterface.php`
 - [ ] Create `Domain/GreedyChangeStrategy.php`
@@ -99,19 +153,18 @@ Extract change-making logic behind an interface.
 
 ## Phase 6 — Introduce Application Coordination
 
-Add the orchestration layer.
+| Task | Started | Completed | Duration |
+|------|---------|-----------|----------|
+| MachineFactory | — | — | — |
+| Command objects | — | — | — |
+| VendingMachineService | — | — | — |
 
-- [ ] Create `Application/MachineFactory.php` — builds VendingMachine from config + state
+- [ ] Create `Application/MachineFactory.php`
 - [ ] Create `Application/Command/InsertCoinCommand.php`
 - [ ] Create `Application/Command/SelectItemCommand.php`
 - [ ] Create `Application/Command/ReturnCoinCommand.php`
 - [ ] Create `Application/Command/ServiceMachineCommand.php`
-- [ ] Create `Application/VendingMachineService.php`:
-  - [ ] load machine state from repository
-  - [ ] reconstitute machine via factory
-  - [ ] invoke domain behavior
-  - [ ] save updated state
-  - [ ] return result
+- [ ] Create `Application/VendingMachineService.php`
 
 > ✅ Phase complete when: **all three high-level tests are still green**.
 
@@ -119,12 +172,14 @@ Add the orchestration layer.
 
 ## Phase 7 — Introduce Ports
 
-Formalize the input and output boundaries.
+| Task | Started | Completed | Duration |
+|------|---------|-----------|----------|
+| Port/In/VendingMachineUseCaseInterface | — | — | — |
+| Port/Out/MachineRepositoryInterface | — | — | — |
+| Port/Out/EventPublisherInterface | — | — | — |
 
 - [ ] Create `Port/In/VendingMachineUseCaseInterface.php`
-- [ ] Create `Port/Out/MachineRepositoryInterface.php`:
-  - [ ] `findById(machineId)`
-  - [ ] `save(machineState)`
+- [ ] Create `Port/Out/MachineRepositoryInterface.php`
 - [ ] Create `Port/Out/EventPublisherInterface.php`
 - [ ] Make `VendingMachineService` depend on ports, not adapters
 
@@ -134,16 +189,15 @@ Formalize the input and output boundaries.
 
 ## Phase 8 — Introduce Adapters
 
-Add concrete implementations for all ports.
+| Task | Started | Completed | Duration |
+|------|---------|-----------|----------|
+| InMemoryMachineRepository | — | — | — |
+| NullEventPublisher | — | — | — |
+| Cli/DemoRunner | — | — | — |
 
 - [ ] Create `Adapter/Out/Persistence/InMemoryMachineRepository.php`
-  - [ ] Seed sample machine state
-  - [ ] Support multiple machines by id
 - [ ] Create `Adapter/Out/Event/NullEventPublisher.php`
-- [ ] Create `Adapter/In/Cli/DemoRunner.php`:
-  - [ ] Support example scenarios from the challenge
-  - [ ] Print output in challenge-friendly format
-  - [ ] Keep runner separate from domain
+- [ ] Create `Adapter/In/Cli/DemoRunner.php`
 
 > ✅ Phase complete when: **all three high-level tests are still green**.
 
@@ -151,7 +205,11 @@ Add concrete implementations for all ports.
 
 ## Phase 9 — Add Domain Rule Tests
 
-Expand test coverage for business rules.
+| Task | Started | Completed | Duration |
+|------|---------|-----------|----------|
+| Failure scenario tests | — | — | — |
+| State reset tests | — | — | — |
+| Service update test | — | — | — |
 
 - [ ] `it_fails_when_not_enough_money_was_inserted`
 - [ ] `it_fails_when_item_is_out_of_stock`
@@ -166,7 +224,11 @@ Expand test coverage for business rules.
 
 ## Phase 10 — Add Isolated Unit Tests
 
-Add focused tests for internal components.
+| Task | Started | Completed | Duration |
+|------|---------|-----------|----------|
+| Change strategy unit tests | — | — | — |
+| Service integration tests | — | — | — |
+| Multi-machine test | — | — | — |
 
 - [ ] `greedy_change_strategy_returns_expected_coins`
 - [ ] `greedy_change_strategy_fails_when_inventory_is_insufficient`
@@ -178,6 +240,10 @@ Add focused tests for internal components.
 ---
 
 ## Phase 11 — Add Error Handling
+
+| Task | Started | Completed | Duration |
+|------|---------|-----------|----------|
+| Domain exceptions | — | — | — |
 
 - [ ] Create `Domain/Exception/InvalidCoin.php`
 - [ ] Create `Domain/Exception/InvalidSelector.php`
@@ -193,6 +259,12 @@ Add focused tests for internal components.
 
 ## Phase 12 — Docker Support
 
+| Task | Started | Completed | Duration |
+|------|---------|-----------|----------|
+| Dockerfile | — | — | — |
+| docker-compose.yml | — | — | — |
+| Verify container | — | — | — |
+
 - [ ] Add `Dockerfile`
 - [ ] Optionally add `docker-compose.yml`
 - [ ] Verify `composer install` works inside container
@@ -204,6 +276,11 @@ Add focused tests for internal components.
 ---
 
 ## Phase 13 — Finalize Documentation
+
+| Task | Started | Completed | Duration |
+|------|---------|-----------|----------|
+| README final update | — | — | — |
+| Docs consistency review | — | — | — |
 
 - [ ] Update `README.md` with final run instructions
 - [ ] Update `README.md` with Docker instructions
