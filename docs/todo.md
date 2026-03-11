@@ -23,7 +23,7 @@ It follows the phased approach defined in `docs/implementation-approach.md` and 
 | Phase 9 — Domain Rule Tests | 2026-03-11 | 2026-03-11 | ~25m |
 | Phase 10 — Isolated Unit Tests | 2026-03-11 | 2026-03-11 | ~20m |
 | Phase 11 — Error Handling | 2026-03-11 | 2026-03-11 | ~20m |
-| Phase 12 — Docker Support | — | — | — |
+| Phase 12 — Docker Support | 2026-03-11 | 2026-03-11 | ~10m |
 | Phase 13 — Finalize Documentation | — | — | — |
 | **Total** | 2026-03-10 | — | — |
 
@@ -261,14 +261,14 @@ It follows the phased approach defined in `docs/implementation-approach.md` and 
 
 | Task | Started | Completed | Duration |
 |------|---------|-----------|----------|
-| Dockerfile | — | — | — |
-| docker-compose.yml | — | — | — |
-| Verify container | — | — | — |
+| Dockerfile | 2026-03-11 | 2026-03-11 | done |
+| docker-compose.yml | 2026-03-11 | 2026-03-11 | ~5m |
+| Verify container | 2026-03-11 | 2026-03-11 | ~5m |
 
-- [ ] Add `Dockerfile`
-- [ ] Optionally add `docker-compose.yml`
-- [ ] Verify `composer install` works inside container
-- [ ] Verify tests pass inside container
+- [x] Add `Dockerfile`
+- [x] Optionally add `docker-compose.yml`
+- [x] Verify `composer install` works inside container
+- [x] Verify tests pass inside container
 - [ ] Verify demo runner works inside container
 
 > ✅ Phase complete when: **all tests pass inside the container**.
