@@ -8,48 +8,51 @@ use VendingMachine\Application\Command\InsertCoinCommand;
 use VendingMachine\Application\Command\ReturnCoinCommand;
 use VendingMachine\Application\Command\SelectItemCommand;
 use VendingMachine\Application\Command\ServiceMachineCommand;
-use VendingMachine\Domain\VendingMachineInterface;
 use VendingMachine\Domain\VendResult;
+use VendingMachine\Port\In\VendingMachineUseCaseInterface;
+use VendingMachine\Port\Out\EventPublisherInterface;
+use VendingMachine\Port\Out\MachineRepositoryInterface;
 
 /**
- * Application service — Phase 6.
+ * Application service — Phase 7.
  *
- * Holds machines in memory keyed by ID. Phase 7 will replace
- * the internal map with a proper MachineRepositoryInterface.
+ * Implements the inbound use-case port and depends only on outbound port
+ * contracts (repository + event publisher), never on concrete adapters.
  */
-final class VendingMachineService
+final class VendingMachineService implements VendingMachineUseCaseInterface
 {
-    /** @var array<string, VendingMachineInterface> */
-    private array $machines = [];
-
-    public function __construct(private readonly MachineFactory $factory) {}
+    public function __construct(
+        private readonly MachineRepositoryInterface $repository,
+        private readonly EventPublisherInterface    $eventPublisher,
+    ) {}
 
     public function insertCoin(InsertCoinCommand $command): void
     {
-        $this->get($command->machineId)->insertCoin($command->cents);
+        $machine = $this->repository->findById($command->machineId);
+        $machine->insertCoin($command->cents);
+        $this->repository->save($machine);
     }
 
     public function selectItem(SelectItemCommand $command): VendResult
     {
-        return $this->get($command->machineId)->selectItem($command->selector);
+        $machine = $this->repository->findById($command->machineId);
+        $result  = $machine->selectItem($command->selector);
+        $this->repository->save($machine);
+        return $result;
     }
 
-    /** @return int[] */
     public function returnCoins(ReturnCoinCommand $command): array
     {
-        return $this->get($command->machineId)->returnCoins();
+        $machine = $this->repository->findById($command->machineId);
+        $coins   = $machine->returnCoins();
+        $this->repository->save($machine);
+        return $coins;
     }
 
     public function serviceMachine(ServiceMachineCommand $command): void
     {
-        $this->get($command->machineId)->service($command->coinsToAdd, $command->itemsToAdd);
-    }
-
-    private function get(string $machineId): VendingMachineInterface
-    {
-        if (!isset($this->machines[$machineId])) {
-            $this->machines[$machineId] = $this->factory->create($machineId);
-        }
-        return $this->machines[$machineId];
+        $machine = $this->repository->findById($command->machineId);
+        $machine->service($command->coinsToAdd, $command->itemsToAdd);
+        $this->repository->save($machine);
     }
 }

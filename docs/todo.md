@@ -18,7 +18,7 @@ It follows the phased approach defined in `docs/implementation-approach.md` and 
 | Phase 4 — Extract Core Domain Model | 2026-03-11 | 2026-03-11 | ~30m |
 | Phase 5 — Change Strategy | 2026-03-11 | 2026-03-11 | ~15m |
 | Phase 6 — Application Coordination | 2026-03-11 | 2026-03-11 | ~20m |
-| Phase 7 — Ports | — | — | — |
+| Phase 7 — Ports | 2026-03-11 | 2026-03-11 | ~15m |
 | Phase 8 — Adapters | — | — | — |
 | Phase 9 — Domain Rule Tests | — | — | — |
 | Phase 10 — Isolated Unit Tests | — | — | — |
@@ -174,14 +174,14 @@ It follows the phased approach defined in `docs/implementation-approach.md` and 
 
 | Task | Started | Completed | Duration |
 |------|---------|-----------|----------|
-| Port/In/VendingMachineUseCaseInterface | — | — | — |
-| Port/Out/MachineRepositoryInterface | — | — | — |
-| Port/Out/EventPublisherInterface | — | — | — |
+| Port/In/VendingMachineUseCaseInterface | 2026-03-11 | 2026-03-11 | ~5m |
+| Port/Out/MachineRepositoryInterface | 2026-03-11 | 2026-03-11 | ~5m |
+| Port/Out/EventPublisherInterface | 2026-03-11 | 2026-03-11 | ~5m |
 
-- [ ] Create `Port/In/VendingMachineUseCaseInterface.php`
-- [ ] Create `Port/Out/MachineRepositoryInterface.php`
-- [ ] Create `Port/Out/EventPublisherInterface.php`
-- [ ] Make `VendingMachineService` depend on ports, not adapters
+- [x] Create `Port/In/VendingMachineUseCaseInterface.php`
+- [x] Create `Port/Out/MachineRepositoryInterface.php`
+- [x] Create `Port/Out/EventPublisherInterface.php`
+- [x] Make `VendingMachineService` depend on ports, not adapters
 
 > ✅ Phase complete when: **all three high-level tests are still green**.
 
