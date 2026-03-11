@@ -5,27 +5,31 @@ declare(strict_types=1);
 namespace VendingMachine\Domain;
 
 /**
- * Core vending machine — Phase 4.
+ * Core vending machine — Phase 5.
  *
- * Delegates configuration to MachineConfig and mutable state to MachineState.
- * Change logic lives here temporarily; it will be extracted into a
- * ChangeStrategyInterface in Phase 5.
+ * Change computation is delegated to an injected ChangeStrategyInterface.
  */
 final class VendingMachine implements VendingMachineInterface
 {
     public function __construct(
-        private readonly string       $machineId,
-        private readonly MachineConfig $config,
-        private MachineState           $state,
+        private readonly string                  $machineId,
+        private readonly MachineConfig           $config,
+        private MachineState                     $state,
+        private readonly ChangeStrategyInterface $changeStrategy,
     ) {}
 
     /**
-     * Factory for a fully stocked machine ready for testing and demo use.
+     * Factory for a fully stocked machine using the greedy change strategy.
      */
     public static function createDefault(string $machineId = 'default'): self
     {
         $config = MachineConfig::createDefault();
-        return new self($machineId, $config, MachineState::createDefault($config));
+        return new self(
+            $machineId,
+            $config,
+            MachineState::createDefault($config),
+            new GreedyChangeStrategy(),
+        );
     }
 
     public function id(): string { return $this->machineId; }
@@ -47,7 +51,12 @@ final class VendingMachine implements VendingMachineInterface
 
         $this->state->absorb();
 
-        $change = $this->makeChange($paid - $price);
+        $change = $this->changeStrategy->compute($paid - $price, $this->state->coinInventory()) ?? [];
+
+        foreach ($change as $denom) {
+            $this->state->decrementCoin($denom);
+        }
+
         $this->state->decrementItem($selector);
 
         return new VendResult($selector, $change);
@@ -66,25 +75,5 @@ final class VendingMachine implements VendingMachineInterface
     public function snapshot(): MachineState
     {
         return $this->state;
-    }
-
-    /** @return int[] Change coins, largest denomination first. */
-    private function makeChange(int $amount): array
-    {
-        if ($amount === 0) {
-            return [];
-        }
-
-        $change = [];
-
-        foreach ($this->config->denominations() as $denom) {
-            while ($amount >= $denom && $this->state->coinCount($denom) > 0) {
-                $change[] = $denom;
-                $this->state->decrementCoin($denom);
-                $amount -= $denom;
-            }
-        }
-
-        return $change;
     }
 }

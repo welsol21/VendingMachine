@@ -16,7 +16,7 @@ It follows the phased approach defined in `docs/implementation-approach.md` and 
 | Phase 2 — First Controlling Tests | 2026-03-11 | 2026-03-11 | ~25m |
 | Phase 3 — Minimal Implementation | 2026-03-11 | 2026-03-11 | ~20m |
 | Phase 4 — Extract Core Domain Model | 2026-03-11 | 2026-03-11 | ~30m |
-| Phase 5 — Change Strategy | — | — | — |
+| Phase 5 — Change Strategy | 2026-03-11 | 2026-03-11 | ~15m |
 | Phase 6 — Application Coordination | — | — | — |
 | Phase 7 — Ports | — | — | — |
 | Phase 8 — Adapters | — | — | — |
@@ -137,15 +137,15 @@ It follows the phased approach defined in `docs/implementation-approach.md` and 
 
 | Task | Started | Completed | Duration |
 |------|---------|-----------|----------|
-| ChangeStrategyInterface | — | — | — |
-| GreedyChangeStrategy | — | — | — |
-| Inject into VendingMachine | — | — | — |
+| ChangeStrategyInterface | 2026-03-11 | 2026-03-11 | ~5m |
+| GreedyChangeStrategy | 2026-03-11 | 2026-03-11 | ~5m |
+| Inject into VendingMachine | 2026-03-11 | 2026-03-11 | ~5m |
 
-- [ ] Create `Domain/ChangeStrategyInterface.php`
-- [ ] Create `Domain/GreedyChangeStrategy.php`
-- [ ] Ensure strategy works with limited coin counts
-- [ ] Return failure when exact change cannot be formed
-- [ ] Inject strategy into `VendingMachine`
+- [x] Create `Domain/ChangeStrategyInterface.php`
+- [x] Create `Domain/GreedyChangeStrategy.php`
+- [x] Ensure strategy works with limited coin counts
+- [x] Return failure when exact change cannot be formed
+- [x] Inject strategy into `VendingMachine`
 
 > ✅ Phase complete when: **all three high-level tests are still green**.
 
